@@ -1,0 +1,20 @@
+<?php
+/**
+ * @var $block \Zero1\OpenPosRma\Block\Info\RmaInfo
+ */
+$paymentTitle = $block->getMethod()->getConfigData('title', $block->getInfo()->getOrder()->getStoreId());
+$rmaMethodCode = $block->getInfo()->getOrder()->getPayment()->getAdditionalInformation('openpos_rma_method_code');
+$rmaMethodTitle = $block->getInfo()->getOrder()->getPayment()->getAdditionalInformation('openpos_rma_method_title');
+
+?>
+<div class="order-payment-method-name"><?= 'OpenPOS RMA Information' ?></div>
+<table class="data-table admin__table-secondary">
+    <tr>
+            <th><?= $block->escapeHtml(__('Refund method:')) ?></th>
+            <td><?= $block->escapeHtml(__($rmaMethodTitle)) ?></td>
+    </tr>
+    <tr>
+        <th><?= $block->escapeHtml(__('Refund amount:')) ?></th>
+        <td><?= $block->escapeHtml(__($block->getInfo()->getOrder()->getGrandTotal())) ?></td>
+    </tr>
+</table>

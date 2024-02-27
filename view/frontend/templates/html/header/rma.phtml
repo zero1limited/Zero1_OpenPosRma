@@ -1,0 +1,22 @@
+<div id="openpos-rma">
+    <?php if($magewire->isVisible): ?>
+        <br>
+        <p style="color: red">You are in RMA / Returns Mode</p>
+        <br>
+        <input id="openpos-rma-sku"
+               autocomplete="off"
+               name="openpos-rma-sku"
+               placeholder="<?= $escaper->escapeHtmlAttr(__('Scan Barcode or enter SKU to refund item')) ?>"
+               class="w-full p-2 text-sm leading-normal transition appearance-none text-grey-800
+                  outline-none lg:text-lg border px-4"
+               wire:model.defer="skuInput"
+        />
+        <br>
+        <div class="w-2/6 grid grid-cols-2">
+            <span class="text-right mr-4 mt-3">Custom refund price (leave blank to use current product price)</span>
+            <input id="custom-price-input" wire:model.defer="customPriceInput" class="border px-4" />
+        </div>
+
+        <button wire:click="addRma">Add RMA to cart</button>
+    <?php endif; ?>
+</div>
