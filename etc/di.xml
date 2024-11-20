@@ -2,7 +2,7 @@
     <type name="Zero1\OpenPos\Magewire\Switcher">
         <arguments>
             <argument name="blocks" xsi:type="array">
-                <item name="RMA mode" xsi:type="string">openpos.rma</item>
+                <item name="Create Return" xsi:type="string">openpos.rma</item>
             </argument>
         </arguments>
     </type>
