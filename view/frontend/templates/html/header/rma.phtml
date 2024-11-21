@@ -10,6 +10,9 @@
                class="w-full text-lg leading-normal transition appearance-none text-grey-800 outline-none border form-input bg-c-highlight"
                wire:model.defer="skuInput"
         />
+        <script>
+            document.getElementById("openpos-rma-sku").focus();
+        </script>
         <div class="flex my-6 items-center">
             <span class="text-sm w-full inline-block"><?php echo __('Custom refund price (leave blank to use current product price)'); ?></span>
             <input id="custom-price-input" wire:model.defer="customPriceInput" class="w-full form-input" />
