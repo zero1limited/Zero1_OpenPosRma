@@ -1,7 +1,6 @@
-<div id="openpos-rma" class="relative w-full flex px-6 flex-col">
+<div id="openpos-rma" class="relative w-full flex px-6 flex-col <?= !$magewire->isVisible ? 'hidden' : ''?>">
     <?php if($magewire->isVisible): ?>
         <style>
-            #zero-1-hyva-pos-auto-add {display: none;}
             .switcher-button-openposrma {display: none;}
         </style>
         <input id="openpos-rma-sku"
