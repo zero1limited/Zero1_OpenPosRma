@@ -106,13 +106,11 @@ class Rma extends Component
 
         try {
             $item = $this->addProductToQuote($product);
-            $this->redirect('/checkout/cart/index/');
+            $this->redirect('/');
         } catch(\Exception $e) {
             $this->dispatchErrorMessage('There was a problem adding this product to the cart.');
             return;
         }
-
-        $this->dispatchSuccessMessage($this->skuInput.' (RMA) has been added to cart.');
     }
 
     protected function addProductToQuote($product)

@@ -1,22 +1,22 @@
-<div id="openpos-rma">
+<div id="openpos-rma" class="relative w-full flex px-6 flex-col <?= !$magewire->isVisible ? 'hidden' : ''?>">
     <?php if($magewire->isVisible): ?>
-        <br>
-        <p style="color: red">You are in RMA / Returns Mode</p>
-        <br>
+        <style>
+            .switcher-button-openposrma {display: none;}
+        </style>
         <input id="openpos-rma-sku"
                autocomplete="off"
                name="openpos-rma-sku"
                placeholder="<?= $escaper->escapeHtmlAttr(__('Scan Barcode or enter SKU to refund item')) ?>"
-               class="w-full p-2 text-sm leading-normal transition appearance-none text-grey-800
-                  outline-none lg:text-lg border px-4"
+               class="w-full text-lg leading-normal transition appearance-none text-grey-800 outline-none border form-input bg-c-highlight"
                wire:model.defer="skuInput"
         />
-        <br>
-        <div class="w-2/6 grid grid-cols-2">
-            <span class="text-right mr-4 mt-3">Custom refund price (leave blank to use current product price)</span>
-            <input id="custom-price-input" wire:model.defer="customPriceInput" class="border px-4" />
+        <script>
+            document.getElementById("openpos-rma-sku").focus();
+        </script>
+        <div class="flex my-6 items-center">
+            <span class="text-sm w-full inline-block"><?php echo __('Custom refund price (leave blank to use current product price)'); ?></span>
+            <input id="custom-price-input" wire:model.defer="customPriceInput" class="w-full form-input" />
         </div>
-
-        <button wire:click="addRma">Add RMA to cart</button>
+        <button wire:click="addRma" class="inline-flex py-4 px-6 btn btn-secondary text-sm w-full justify-center mb-6"><?php echo __('Add Returns Item'); ?></button>
     <?php endif; ?>
 </div>
