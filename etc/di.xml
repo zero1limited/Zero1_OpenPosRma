@@ -18,4 +18,8 @@
     <type name="Magento\Payment\Model\Checks\ZeroTotal">
         <plugin name="zero1_openpos_rma_zero_total_bypass" type="Zero1\OpenPosRma\Plugin\ZeroTotalBypass" sortOrder="10"/>
     </type>
+
+    <type name="Magento\CatalogInventory\Model\StockManagement">
+        <plugin name="zero1_openpos_prevent_rma_stock_deduction" type="Zero1\OpenPosRma\Plugin\PreventRmaStockDeduction" />
+    </type>
 </config>
