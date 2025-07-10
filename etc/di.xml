@@ -22,4 +22,8 @@
     <type name="Magento\CatalogInventory\Model\StockManagement">
         <plugin name="zero1_openpos_prevent_rma_stock_deduction" type="Zero1\OpenPosRma\Plugin\PreventRmaStockDeduction" />
     </type>
+
+    <type name="Magento\Payment\Model\MethodInterface">
+        <plugin name="zero1_openpos_rma_payment_method_filter" type="Zero1\OpenPosRma\Plugin\PaymentMethodFilter" />
+    </type>
 </config>
