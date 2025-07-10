@@ -10,6 +10,7 @@ use Magento\Catalog\Api\ProductRepositoryInterface;
 use Magento\Catalog\Model\ResourceModel\Product\CollectionFactory as ProductCollectionFactory;
 use Zero1\OpenPos\Helper\Data as PosHelper;
 use Magento\Framework\DataObject\Factory as ObjectFactory;
+use Magento\Quote\Api\CartRepositoryInterface;
 
 class Rma extends Component
 {
@@ -41,6 +42,11 @@ class Rma extends Component
     protected $objectFactory;
 
     /**
+     * @var CartRepositoryInterface
+     */
+    protected $cartRepository;
+
+    /**
      * @var bool
      */
     public $isVisible = false;
@@ -61,19 +67,22 @@ class Rma extends Component
      * @param ProductCollectionFactory $productCollectionFactory
      * @param PosHelper $posHelper
      * @param ObjectFactory $objectFactory
+     * @param CartRepositoryInterface $cartRepository
      */
     public function __construct(
         CheckoutSession $checkoutSession,
         ProductRepositoryInterface $productRepository,
         ProductCollectionFactory $productCollectionFactory,
         PosHelper $posHelper,
-        ObjectFactory $objectFactory
+        ObjectFactory $objectFactory,
+        CartRepositoryInterface $cartRepository
     ) {
         $this->checkoutSession = $checkoutSession;
         $this->productRepository = $productRepository;
         $this->productCollectionFactory = $productCollectionFactory;
         $this->posHelper = $posHelper;
         $this->objectFactory = $objectFactory;
+        $this->cartRepository = $cartRepository;
     }
 
     public function addRma()
@@ -130,7 +139,11 @@ class Rma extends Component
             $item->setOriginalCustomPrice(-$price);
             $item->getProduct()->setIsSuperMode(true);
 
-            $quote->collectTotals()->save();
+            $quote->setTotalsCollectedFlag(false);
+            $this->cartRepository->save($quote);
+
+            $quote->collectTotals();
+            $this->cartRepository->save($quote);
 
             return $item;
         } catch(\Exception $e) {
