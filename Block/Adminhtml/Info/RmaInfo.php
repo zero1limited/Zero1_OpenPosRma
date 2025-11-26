@@ -1,6 +1,6 @@
 <?php
 
-namespace Zero1\OpenPosRma\Block\Info;
+namespace Zero1\OpenPosRma\Block\Adminhtml\Info;
 
 class RmaInfo extends \Magento\Payment\Block\Info
 {

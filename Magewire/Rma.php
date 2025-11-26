@@ -8,7 +8,7 @@ use Magewirephp\Magewire\Component;
 use Magento\Checkout\Model\Session as CheckoutSession;
 use Magento\Catalog\Api\ProductRepositoryInterface;
 use Magento\Catalog\Model\ResourceModel\Product\CollectionFactory as ProductCollectionFactory;
-use Zero1\OpenPos\Helper\Data as PosHelper;
+use Zero1\OpenPos\Model\Configuration as OpenPosConfiguration;
 use Magento\Framework\DataObject\Factory as ObjectFactory;
 use Magento\Quote\Api\CartRepositoryInterface;
 
@@ -32,9 +32,9 @@ class Rma extends Component
     protected $productCollectionFactory;
 
     /**
-     * @var PosHelper
+     * @var OpenPosConfiguration
      */
-    protected $posHelper;
+    protected $openPosConfiguration;
 
     /**
      * @var ObjectFactory
@@ -65,7 +65,7 @@ class Rma extends Component
      * @param CheckoutSession $checkoutSession
      * @param ProductRepositoryInterface $productRepository
      * @param ProductCollectionFactory $productCollectionFactory
-     * @param PosHelper $posHelper
+     * @param OpenPosConfiguration $openPosConfiguration
      * @param ObjectFactory $objectFactory
      * @param CartRepositoryInterface $cartRepository
      */
@@ -73,14 +73,14 @@ class Rma extends Component
         CheckoutSession $checkoutSession,
         ProductRepositoryInterface $productRepository,
         ProductCollectionFactory $productCollectionFactory,
-        PosHelper $posHelper,
+        OpenPosConfiguration $openPosConfiguration,
         ObjectFactory $objectFactory,
         CartRepositoryInterface $cartRepository
     ) {
         $this->checkoutSession = $checkoutSession;
         $this->productRepository = $productRepository;
         $this->productCollectionFactory = $productCollectionFactory;
-        $this->posHelper = $posHelper;
+        $this->openPosConfiguration = $openPosConfiguration;
         $this->objectFactory = $objectFactory;
         $this->cartRepository = $cartRepository;
     }
@@ -92,7 +92,7 @@ class Rma extends Component
             $product = $this->productRepository->get($this->skuInput);
         } catch(\Magento\Framework\Exception\NoSuchEntityException $e) {
             // Cannot find product by SKU, so use barcode attribute
-            $barcodeAttribute = $this->posHelper->getBarcodeAttribute();
+            $barcodeAttribute = $this->openPosConfiguration->getBarcodeAttribute();
             if($barcodeAttribute) {
                 $productCollection = $this->productCollectionFactory->create();
                 $productCollection->addAttributeToFilter($barcodeAttribute, ['eq' => $this->skuInput]);
