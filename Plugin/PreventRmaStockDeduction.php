@@ -3,23 +3,23 @@ declare(strict_types=1);
 
 namespace Zero1\OpenPosRma\Plugin;
 
-use Zero1\OpenPos\Helper\Data as OpenPosHelper;
+use Zero1\OpenPos\Model\TillSessionManagement;
 use Magento\Sales\Api\Data\OrderItemInterface;
 
 class PreventRmaStockDeduction
 {
     /**
-     * @var OpenPosHelper
+     * @var TillSessionManagement
      */
-    protected $openPosHelper;
+    protected $tillSessionManagement;
 
     /**
-     * @param OpenPosHelper $posHelper
+     * @param TillSessionManagement $tillSessionManagement
      */
     public function __construct(
-        OpenPosHelper $openPosHelper
+        TillSessionManagement $tillSessionManagement
     ) {
-        $this->openPosHelper = $openPosHelper;
+        $this->tillSessionManagement = $tillSessionManagement;
     }
 
     /**
@@ -34,7 +34,7 @@ class PreventRmaStockDeduction
     public function beforeRegisterProductsSale($subject, array $items, $websiteId = null): array
     {
         // Don't modify params if we aren't on POS store.
-        if(!$this->openPosHelper->currentlyOnPosStore()) {
+        if(!$this->tillSessionManagement->currentlyOnPosStore()) {
             return [$items, $websiteId];
         }
 

@@ -3,9 +3,9 @@
         <payment>
             <openpos_rma>
                 <active>1</active>
-                <model>Zero1\OpenPosRma\Model\PaymentMethod</model>
+                <model>Zero1\OpenPosRma\Model\PaymentMethod\Rma</model>
                 <order_status>processing</order_status>
-                <title>OpenPOS RMA / Returns</title>
+                <title>Offline RMA</title>
             </openpos_rma>
         </payment>
     </default>

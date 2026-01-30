@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 namespace Zero1\OpenPosRma\Plugin;
 
-use Zero1\OpenPos\Helper\Data as OpenPosHelper;
+use Zero1\OpenPos\Model\TillSessionManagement;
 use Magento\Payment\Model\MethodInterface;
 use Magento\Quote\Api\Data\CartInterface;
 
@@ -12,17 +12,17 @@ class PaymentMethodFilter
     const OPENPOS_RMA_METHOD_CODE = 'openpos_rma';
 
     /**
-     * @var OpenPosHelper
+     * @var TillSessionManagement
      */
-    protected $openPosHelper;
+    protected $tillSessionManagement;
 
     /**
-     * @param OpenPosHelper $posHelper
+     * @param TillSessionManagement $tillSessionManagement
      */
     public function __construct(
-        OpenPosHelper $openPosHelper
+        TillSessionManagement $tillSessionManagement
     ) {
-        $this->openPosHelper = $openPosHelper;
+        $this->tillSessionManagement = $tillSessionManagement;
     }
 
     public function afterIsAvailable(MethodInterface $subject, $result, CartInterface $quote = null)
@@ -32,7 +32,7 @@ class PaymentMethodFilter
         }
 
         // Only apply logic if on OpenPOS store
-        if (!$this->openPosHelper->currentlyOnPosStore()) {
+        if (!$this->tillSessionManagement->currentlyOnPosStore()) {
             return $result;
         }
 
