@@ -4,7 +4,7 @@ declare(strict_types=1);
 namespace Zero1\OpenPosRma\Plugin;
 
 use Zero1\OpenPos\Helper\Data as OpenPosHelper;
-use Magento\Sales\Api\Data\OrderItemInterface;
+use Magento\CatalogInventory\Observer\ProductQty;
 
 class PreventRmaStockDeduction
 {
@@ -26,34 +26,25 @@ class PreventRmaStockDeduction
      * Remove any items from QTY deduction logic that have a negative value.
      * Only runs on POS store.
      *
-     * @param \Magento\CatalogInventory\Model\StockManagement $subject
-     * @param \Magento\Sales\Api\Data\OrderItemInterface[] $items
-     * @param int $websiteId
+     * @param ProductQty $subject
+     * @param array $relatedItems Array of Quote Items
      * @return array
      */
-    public function beforeRegisterProductsSale($subject, array $items, $websiteId = null): array
+    public function beforeGetProductQty(ProductQty $subject, $relatedItems)
     {
-        // Don't modify params if we aren't on POS store.
         if(!$this->openPosHelper->currentlyOnPosStore()) {
-            return [$items, $websiteId];
+            return [$relatedItems];
         }
 
         $filteredItems = [];
-        foreach ($items as $item) {
-            if (!($item instanceof OrderItemInterface)) {
+
+        foreach ($relatedItems as $item) {
+            // Check this quote item isn't an RMA
+            if ($item->getRowTotal() >= 0) {
                 $filteredItems[] = $item;
-                continue;
             }
-
-            $rowTotal = $item->getRowTotal() ?? ($item->getQtyOrdered() * $item->getPrice());
-
-            if ($rowTotal < 0) {
-                continue;
-            }
-
-            $filteredItems[] = $item;
         }
 
-        return [$filteredItems, $websiteId];
+        return [$filteredItems];
     }
 }
