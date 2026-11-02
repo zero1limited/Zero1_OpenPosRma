@@ -124,8 +124,8 @@ class Rma extends \Magento\Payment\Model\Method\AbstractMethod
             return false;
         }
 
-        // Check if we are on POS store
-        if(!$this->tillSessionManagement->currentlyOnPosStore()) {
+        // Check an active till is using the POS store - never offered to API callers without one
+        if(!$this->tillSessionManagement->isTillSessionActive()) {
             return false;
         }
 
