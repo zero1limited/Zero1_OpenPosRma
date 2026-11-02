@@ -25,7 +25,7 @@ class PaymentMethodFilter
         $this->tillSessionManagement = $tillSessionManagement;
     }
 
-    public function afterIsAvailable(MethodInterface $subject, $result, CartInterface $quote = null)
+    public function afterIsAvailable(MethodInterface $subject, $result, ?CartInterface $quote = null)
     {
         if (!$quote) {
             return $result;
